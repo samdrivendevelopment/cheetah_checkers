@@ -1,5 +1,5 @@
 
-from checkers import print_board, move_piece
+from checkers import print_board, move_piece, remove_piece, valid_jump, king_piece
 
 class TestUI(object):
     def write(self, text):
@@ -41,6 +41,77 @@ def test_move_piece():
     ]
     return good_board == board
 
+def test_remove_piece():
+    y_remove = 4
+    x_remove = 3
+    board = [
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_', '_', '_', 'r', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]   
+    remove_piece(y_remove, x_remove, board)
+    good_board = [['_'] * 8] * 8
+    return good_board == board
+
+def test_king_move_w():
+    board = [
+        ['w', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]   
+    king_piece(0, 0, board)
+    good_board = [
+        ['W', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]   
+    return good_board == board
+
+def test_king_move_r():
+    board = [
+        ['r', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    king_piece(0, 0, board)
+    good_board = [
+        ['R', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    return good_board == board
+
+def test_valid_jump():
+    return False
+
+def test_invalid_jump():
+    return False
+
 def main():
     print 'start test'
 
@@ -49,6 +120,22 @@ def main():
 
     if not test_move_piece():
         print 'move_piece failed'
+
+    if not test_remove_piece():
+        print 'remove_piece failed'
+
+    if not test_king_move_w():
+        print 'king_move failed for w'
+
+    if not test_king_move_r():
+        print 'king_move failed for r'
+
+    if not test_valid_jump():
+        print 'valid_jump failed valid'
+
+    if not test_invalid_jump():
+        print 'valid_jump failed invalid'
+
 
     print 'end test'
 
