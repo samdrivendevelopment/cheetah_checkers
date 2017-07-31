@@ -106,6 +106,9 @@ def test_king_move_r():
     ]
     return good_board == board
 
+def test_interpret_move_action():
+    return False
+
 def test_valid_jump():
     return False
 
@@ -129,6 +132,9 @@ def main():
 
     if not test_king_move_r():
         print 'king_move failed for r'
+
+    if not test_interpret_move_action():
+        print 'interpret_move_action failed'
 
     if not test_valid_jump():
         print 'valid_jump failed valid'

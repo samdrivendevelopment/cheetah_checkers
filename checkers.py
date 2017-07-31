@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+import json
 
 class ShellUI(object):
     def write(self, text):
@@ -35,20 +38,16 @@ def king_piece(y_king, x_king, board):
 def valid_jump(y_src, x_scr, y_dest, x_dest):
     pass
 
+def load_state(state_file):
+    state = json.load(state_file)
+    return state
+
 def demo():
-    
-    state = {
-        'board': [
-            ['_'] * 8,
-            ['_'] * 8,
-            ['_'] * 8,
-            ['_'] * 8,
-            ['w', '_', '_', '_', '_', '_', '_', '_'],
-            ['_'] * 8,
-            ['_', '_', 'r', '_', '_', '_', '_', '_'],
-            ['_'] * 8
-        ]
-    }
+    # initialize state by calling function
+    f = open('checkers_demo_state.json')
+    state = load_state(f)
+    f.close()
+
     ui = ShellUI()
 
     pretty_board(state['board'], ui)
