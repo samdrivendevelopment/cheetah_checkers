@@ -71,49 +71,6 @@ class CheckersGame(object):
         interpret_action(user_input, self.state['board'])
         pretty_board(self.state['board'], self.ui)
         return False
-        
-
-def demo1():
-    # initialize state by calling function
-    f = open('checkers_demo_state.json')
-    state = load_state(f)
-    f.close()
-
-    ui = ShellUI()
-
-    pretty_board(state['board'], ui)
-    # regular move
-    interpret_action('move 6 2 5 1', state['board'])
-    pretty_board(state['board'], ui)
-    # jump move
-    interpret_action('move 4 0 6 2', state['board'])
-    interpret_action('remove 5 1', state['board'])
-    pretty_board(state['board'], ui)
-    # king move
-    interpret_action('move 6 2 7 3', state['board'])
-    interpret_action('king 7 3', state['board'])
-    pretty_board(state['board'], ui)
-
-def demo():
-    # initialize state by calling function
-    f = open('checkers_demo_state.json')
-    state = load_state(f)
-    f.close()
-
-    ui = ShellUI()
-
-    pretty_board(state['board'], ui)
-    # regular move
-    move_piece(6, 2, 5, 1, state['board'])
-    pretty_board(state['board'], ui)
-    # jump move
-    move_piece(4, 0, 6, 2, state['board'])
-    remove_piece(5, 1, state['board'])
-    pretty_board(state['board'], ui)
-    # king move
-    move_piece(6, 2, 7, 3, state['board'])
-    king_piece(7, 3, state['board'])
-    pretty_board(state['board'], ui)
 
 def main():
     state = {
