@@ -19,3 +19,7 @@ Step five
 
 create and test a function that takes a str of numbers and put them in the move
 
+Step six
+
+create game class abd turn, fully fuctional checkers
+

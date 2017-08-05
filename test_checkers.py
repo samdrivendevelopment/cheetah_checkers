@@ -1,5 +1,5 @@
 
-from checkers import print_board, move_piece, remove_piece, valid_jump, king_piece
+from checkers import print_board, move_piece, remove_piece, valid_jump, king_piece, interpret_move_action, interpret_king_action, interpret_remove_action, interpret_action
 
 class TestUI(object):
     def write(self, text):
@@ -107,13 +107,151 @@ def test_king_move_r():
     return good_board == board
 
 def test_interpret_move_action():
-    return False
+    board = [
+        ['r', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    user_input = '0 0 1 1'
+    interpret_move_action(user_input, board)
+    good_board = [
+        ['_'] * 8,
+        ['_', 'r', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    return good_board == board
 
-def test_valid_jump():
-    return False
+def test_interpret_king_action():
+    board = [
+        ['r', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    user_input = '0 0'
+    interpret_king_action(user_input, board)
+    good_board = [
+        ['R', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    return good_board == board
 
-def test_invalid_jump():
-    return False
+def test_interpret_remove_action():
+    board = [
+        ['r', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    user_input = '0 0'
+    interpret_remove_action(user_input, board)
+    good_board = [
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    return good_board == board
+
+def test_move_interpret_action():
+    board = [
+        ['r', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    interpret_action('move 0 0 1 1', board)
+    good_board = [
+        ['_'] * 8,
+        ['_', 'r', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    return good_board == board
+
+def test_remove_interpret_action():
+    board = [
+        ['r', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    interpret_action('remove 0 0', board)
+    good_board = [
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    return good_board == board
+
+def test_king_interpret_action():
+    board = [
+        ['r', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    interpret_action('king 0 0', board)
+    good_board = [
+        ['R', '_', '_', '_', '_', '_', '_', '_'],
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+        ['_'] * 8,
+    ]
+    return good_board == board
 
 def main():
     print 'start test'
@@ -136,12 +274,20 @@ def main():
     if not test_interpret_move_action():
         print 'interpret_move_action failed'
 
-    if not test_valid_jump():
-        print 'valid_jump failed valid'
+    if not test_interpret_king_action():
+        print 'interpret_king_action failed'
 
-    if not test_invalid_jump():
-        print 'valid_jump failed invalid'
+    if not test_interpret_remove_action():
+        print 'interpret_remove_action failed'
 
+    if not test_move_interpret_action():
+        print 'move_interpret_action failed'
+
+    if not test_remove_interpret_action():
+        print 'remove_interpret_action failed'
+
+    if not test_king_interpret_action():
+        print 'king_interpret_action failed'
 
     print 'end test'
 
