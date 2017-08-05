@@ -1,5 +1,5 @@
 
-from checkers import print_board, move_piece, remove_piece, valid_jump, king_piece, interpret_move_action, interpret_king_action, interpret_remove_action, interpret_action
+from checkers import print_board, move_piece, remove_piece, king_piece, interpret_move_action, interpret_king_action, interpret_remove_action, interpret_action
 
 class TestUI(object):
     def write(self, text):
@@ -13,244 +13,75 @@ def test_print_board():
     checker_board = '\n'.join([' '.join('_' * 8)] * 8)
     return ui.written == checker_board
 
+def make_empty_board():
+    return [['_'] * 8] * 8
+
+def make_one_piece_board(y, x, piece):
+    board = make_empty_board()
+    board[y][x] = piece
+    return board
+
 def test_move_piece():
-    y_src = 2
-    x_src = 1
-    y_dest = 3
-    x_dest = 0
-    board = [
-        ['_', 'w'] * 4,
-        ['w', '_'] * 4,
-        ['_', 'w'] * 4,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['r', '_'] * 4,
-        ['_', 'r'] * 4,
-        ['r', '_'] * 4,
-    ]
-    move_piece(y_src, x_src, y_dest, x_dest, board)
-    good_board = [
-        ['_', 'w'] * 4,
-        ['w', '_'] * 4,
-        ['_', '_', '_', 'w', '_', 'w', '_', 'w'],
-        ['w', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['r', '_'] * 4,
-        ['_', 'r'] * 4,
-        ['r', '_'] * 4,
-    ]
+    board = make_one_piece_board(2, 1, 'r')
+    move_piece(2, 1, 3, 0, board)
+    good_board = make_one_piece_board(3, 0, 'r')
     return good_board == board
 
 def test_remove_piece():
-    y_remove = 4
-    x_remove = 3
-    board = [
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_', '_', '_', 'r', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]   
-    remove_piece(y_remove, x_remove, board)
-    good_board = [['_'] * 8] * 8
+    board = make_one_piece_board(4, 3, 'r') 
+    remove_piece(4, 3, board)
+    good_board = make_empty_board()
     return good_board == board
 
 def test_king_move_w():
-    board = [
-        ['w', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]   
+    board = make_one_piece_board(0, 0, 'w') 
     king_piece(0, 0, board)
-    good_board = [
-        ['W', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]   
+    good_board = make_one_piece_board(0, 0, 'W')
     return good_board == board
 
 def test_king_move_r():
-    board = [
-        ['r', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    board = make_one_piece_board(0, 0, 'r')
     king_piece(0, 0, board)
-    good_board = [
-        ['R', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    good_board = make_one_piece_board(0, 0, 'R')
     return good_board == board
 
 def test_interpret_move_action():
-    board = [
-        ['r', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    board = make_one_piece_board(0, 0, 'r')
     user_input = '0 0 1 1'
     interpret_move_action(user_input, board)
-    good_board = [
-        ['_'] * 8,
-        ['_', 'r', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    good_board = make_one_piece_board(1, 1, 'r')
     return good_board == board
 
 def test_interpret_king_action():
-    board = [
-        ['r', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    board = make_one_piece_board(0, 0, 'r')
     user_input = '0 0'
     interpret_king_action(user_input, board)
-    good_board = [
-        ['R', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    good_board = make_one_piece_board(0, 0, 'R')
     return good_board == board
 
 def test_interpret_remove_action():
-    board = [
-        ['r', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    board = make_one_piece_board(0, 0, 'r')
     user_input = '0 0'
     interpret_remove_action(user_input, board)
-    good_board = [
-        ['_', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    good_board = make_empty_board()
     return good_board == board
 
 def test_move_interpret_action():
-    board = [
-        ['r', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    board = make_one_piece_board(0, 0, 'r')
     interpret_action('move 0 0 1 1', board)
-    good_board = [
-        ['_'] * 8,
-        ['_', 'r', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    good_board = make_one_piece_board(1, 1, 'r')
     return good_board == board
 
 def test_remove_interpret_action():
-    board = [
-        ['r', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    board = make_one_piece_board(0, 0, 'r')
     interpret_action('remove 0 0', board)
-    good_board = [
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    good_board = make_empty_board()
     return good_board == board
 
 def test_king_interpret_action():
-    board = [
-        ['r', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    board = make_one_piece_board(0, 0, 'r')
     interpret_action('king 0 0', board)
-    good_board = [
-        ['R', '_', '_', '_', '_', '_', '_', '_'],
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-        ['_'] * 8,
-    ]
+    good_board = make_one_piece_board(0, 0, 'R')
     return good_board == board
 
 def main():

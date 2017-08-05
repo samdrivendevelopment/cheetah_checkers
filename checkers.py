@@ -27,7 +27,7 @@ def pretty_board(board, ui):
 def move_piece(y_src, x_src, y_dest, x_dest, board):
     board[y_dest][x_dest] = board[y_src][x_src]
     board[y_src][x_src] = '_'
-
+        
 def remove_piece(y_remove, x_remove, board):
     board[y_remove][x_remove] = '_'
 
@@ -36,9 +36,6 @@ def king_piece(y_king, x_king, board):
         board[y_king][x_king] = 'R'
     if board[y_king][x_king] == 'w':
         board[y_king][x_king] = 'W'
-
-def valid_jump(y_src, x_scr, y_dest, x_dest):
-    pass
 
 def load_state(state_file):
     state = json.load(state_file)
